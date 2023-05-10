@@ -2,6 +2,8 @@ from __future__ import print_function
 
 import os.path
 
+import base64
+
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -46,8 +48,21 @@ def main():
             message = service.users().messages().get(userId='me', id=messages[0]['id']).execute()
 
             # Print the subject and body of the email
-            print('Subject: ', message['payload']['headers'][15]['value'])
-            print('Body: ', message['snippet'])
+            print('Subject: ')
+            for k in message['payload']:
+                print(k) 
+            
+            payload = message['payload']['parts'][0]['body']['data']
+            print(payload)
+            
+            # decode base64 string to bytes
+            bytes_str = base64.urlsafe_b64decode(payload)
+
+            # convert bytes to regular string
+            regular_str = bytes_str.decode('utf-8')
+
+            print(regular_str)
+            
 
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.

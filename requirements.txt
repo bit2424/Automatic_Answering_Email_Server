@@ -1,5 +1,8 @@
 datasets
 pandas
+transformers
+git+https://github.com/huggingface/transformers # need to install from github
+git+https://github.com/huggingface/peft.git     # need to install from github
 google-auth
 google-auth-oauthlib 
 google-auth-httplib2
